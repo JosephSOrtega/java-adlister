@@ -16,7 +16,9 @@ public class HelloWorldServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<h1>Hello, World!</h1>");
     }
-
-    public static void main(String[] args) {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)throws IOException {
+        System.out.println("You should see this in the console after post");
     }
+
 }
