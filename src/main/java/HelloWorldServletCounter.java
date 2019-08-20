@@ -16,6 +16,13 @@ public class HelloWorldServletCounter extends HttpServlet {
         out.println("<h1>Counter went up by 1</h1>");
         out.println("<h3>"+counter+"</h1>");
         counter += 1;
+
+        String query = request.getParameter("reset");
+        System.out.println(query);
+        if (query.equalsIgnoreCase("reset")) {
+            counter = 0;
+        }
+
     }
 
 }
