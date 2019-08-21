@@ -11,6 +11,22 @@
     <title>Title</title>
 </head>
 <body>
+<div class="container">
+    <label><b>Username</b></label>
+    <input id="uname" type="text" placeholder="Enter Username" name="uname" required>
 
+    <label><b>Password</b></label>
+    <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
+
+    <button id="submitter" type="submit">Login</button>
+
+    <script>
+        ${"#submitter"}.onclick(function () {
+            $.post("http://localhost:8080/login", {username:${"#uname"}, password: ${"#psw"}}).then(function () {
+                alert("success");
+            })
+        });
+    </script>
+</div>
 </body>
 </html>

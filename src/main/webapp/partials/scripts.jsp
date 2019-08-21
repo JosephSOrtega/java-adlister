@@ -9,6 +9,11 @@
 <html>
 <head>
     <script src="js/main.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.js"
+            integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+            crossorigin="anonymous"></script>
+
     <title>Title</title>
 </head>
 <body>
