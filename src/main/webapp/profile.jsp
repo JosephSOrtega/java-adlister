@@ -9,6 +9,11 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        body {
+            background-color: darkblue;
+        }
+    </style>
 </head>
 <body>
 

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: justinsortega
@@ -11,22 +12,24 @@
     <title>Title</title>
 </head>
 <body>
+<c:if test="${param.uname == 'admin' && param.psw == 'password'}">
+    <%
+        response.sendRedirect("/profile.jsp");
+    %>
+    <h1>Worked!</h1>
+</c:if>
+
 <div class="container">
-    <label><b>Username</b></label>
-    <input id="uname" type="text" placeholder="Enter Username" name="uname" required>
-
-    <label><b>Password</b></label>
-    <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
-
-    <button id="submitter" type="submit">Login</button>
-
-    <script>
-        ${"#submitter"}.onclick(function () {
-            $.post("http://localhost:8080/login", {username:${"#uname"}, password: ${"#psw"}}).then(function () {
-                alert("success");
-            })
-        });
-    </script>
+    <form name="submitForm" method="post" action="./login.jsp">
+        <label>Username
+            <input id="uname" type="text" placeholder="Enter Username" name="uname" required>
+        </label>
+        <label>Password
+            <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
+        </label>
+        <input type="hidden" name="param1" value="param1Value">
+        <button type="submit">Login</button>
+    </form>
 </div>
 </body>
 </html>
