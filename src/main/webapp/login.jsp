@@ -7,11 +7,24 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    //    Alternate Version
+//    String username = request.getParameter("uname");
+//    String password =request.getParameter("psw");
+//    if (username.equalsIgnoreCase("admin") && password.equalsIgnoreCase("password")) {
+//        response.sendRedirect("/profile.jsp");
+//
+//    }
+%>
 <html>
 <head>
+    <%@ include file="/partials/header.jsp" %>
     <title>Title</title>
 </head>
 <body>
+<%@ include file="/partials/navbar.jsp" %>
+
 <c:if test="${param.uname == 'admin' && param.psw == 'password'}">
     <%
         response.sendRedirect("/profile.jsp");
