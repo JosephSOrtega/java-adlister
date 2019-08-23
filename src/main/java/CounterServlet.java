@@ -12,11 +12,11 @@ public class CounterServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 //        counter += 1;
-//        response.getWriter().println("<h1>The count is " + counter + ".</h1>");
-        request.getSession().invalidate();
+//        response.getWriter().println("<h1>The count is " + counter + ".</h1>");request.getSession().invalidate();
         HttpSession session = request.getSession();
-        session.invalidate();
-        request.getRequestDispatcher("/").forward(request, response);
+        request.getSession().removeAttribute("loggedIn");
+        session.removeAttribute("loggedIn");
+        request.getRequestDispatcher("/login").forward(request, response);
 
 
 

@@ -9,9 +9,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <jsp:include page="/partials/head.jsp">
+        <jsp:param name="title" value="Viewing All The Ads" />
+    </jsp:include>
 </head>
 <body>
+<jsp:include page="/partials/navbar.jsp" />
 <h1>Apply Now for: <span>${sessionScope.program}</span></h1>
 
 <form action="#">
