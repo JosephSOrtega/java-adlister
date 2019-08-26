@@ -1,22 +1,35 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLAdsDao implements Ads {
 
     private Connection connection;
-    public static MySQLAdsDao daBomb;
 
-    static {
-        try {
-            daBomb = new MySQLAdsDao(connect());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+    private List<Ad> ads;
+
+//    public MySQLAdsDao() throws SQLException {
+//        connection = connect();
+//    }
+//
+
+    public Connection connect() throws SQLException {
+        Config config = new Config();
+        Connection connections = DriverManager.getConnection(
+                config.getUrl(),
+                config.getUsername(),
+                config.getPassword()
+        );
+        connection = connections;
+        return connections;
     }
 
-    @Override
-    public List<Ad> all() throws SQLException {
+
+    public List<Ad> all() {
+        List<Ad> ads = new ArrayList<>();
         try {
+            Connection connection = connect();
             Statement statement = connection.createStatement();
             String queryString = "SELECT * FROM ads;";
             System.out.println("Connected");
@@ -24,36 +37,37 @@ public class MySQLAdsDao implements Ads {
             if (rs != null) {
                 System.out.println("Statement Successful");
                 while (rs.next()) {
-                    System.out.println("Here's the ad:");
-                    System.out.println("  id: " + rs.getLong("id"));
-                    System.out.println("  title: " + rs.getString("title"));
-                    System.out.println("  description: " + rs.getString("description"));
-                    return null;
+//                    System.out.println("Here's the ad:");
+//                    System.out.println("  id: " + rs.getLong("id"));
+//                    System.out.println("  title: " + rs.getString("title"));
+//                    System.out.println("  description: " + rs.getString("description"));
+                    Long id = rs.getLong("id");
+                    Long userid = rs.getLong("user_id");
+                    String title = rs.getString("title");
+
+                    String desc = rs.getString("description");
+                    ads.add(new Ad(id, userid, title, desc));
                 }
+                return ads;
             } else {
                 System.out.println("Statement Exploded");
-                return null;
-
-
+                return ads;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
-
+            return ads;
         }
-        return null;
-
     }
 
-    @Override
     public Long insert(Ad ad) {
         try {
+            Connection connection = connect();
             Statement statement = connection.createStatement();
             System.out.println("Connected");
-            boolean rs = statement.execute("INSERT INTO ads(user_id, title, description) value (" + ad.getUserId() + ", '" + ad.getTitle() + "', '" + ad.getDescription() + "')");
-            String queryString = "SELECT * FROM ads where title = '" + ad.getTitle() + "';";
-            ResultSet work = statement.executeQuery(queryString);
-            if (work != null) {
+            String rs = "INSERT INTO ads(user_id, title, description) value (" + ad.getUserId() + ", '" + ad.getTitle() + "', '" + ad.getDescription() + "')";
+            statement.executeUpdate(rs, Statement.RETURN_GENERATED_KEYS);
+            ResultSet work = statement.getGeneratedKeys();
+            if (work.next()) {
                 System.out.println("Success");
                 return null;
             } else {
@@ -66,42 +80,35 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
-    public static Connection connect() throws SQLException {
-        Config con = new Config();
-        Connection config = DriverManager.getConnection(
-                con.getUrl(),
-                con.getUsername(),
-                con.getPassword()
-        );
-        return config;
-    }
-
-    public MySQLAdsDao(Connection connection) throws SQLException {
-        this.connection = connection;
-    }
-
     public static void main(String[] args) throws SQLException {
         Ad prect = new Ad(1, "Puppers", "Free for 20 bucks");
-        daBomb.all();
+        List<Ad> here = DaoFactory.getAdsDao().all();
+        for (Ad ad : here) {
+            System.out.println(ad.getId());
+            System.out.println(ad.getUserId());
+            System.out.println(ad.getTitle());
+            System.out.println(ad.getDescription());
+
+        }
 //        daBomb.insert(prect);
 
-        //        try {
-//            Connection connection = connect();
-//            Statement statement = connection.createStatement();
-//            System.out.println("Connected");
-//            int rs = statement.executeUpdate("INSERT INTO User(username,email, password) VALUES ('mainTest','EmailHere', 'pass')");
-//            if (rs > -1) {
-//                System.out.println("Statement Successful");
-//            } else {
-//                System.out.println("Statement Exploded");
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-
-
+////        //        try {
+//////            Connection connection = connect();
+//////            Statement statement = connection.createStatement();
+//////            System.out.println("Connected");
+//////            int rs = statement.executeUpdate("INSERT INTO User(username,email, password) VALUES ('mainTest','EmailHere', 'pass')");
+//////            if (rs > -1) {
+//////                System.out.println("Statement Successful");
+//////            } else {
+//////                System.out.println("Statement Exploded");
+//////            }
+//////        } catch (SQLException e) {
+//////            e.printStackTrace();
+//////        }
+//////
+//////
+////
+////
     }
 }
 
