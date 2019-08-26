@@ -14,7 +14,6 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
-
     @Override
     public List<Ad> all() throws SQLException {
         try {
@@ -68,13 +67,13 @@ public class MySQLAdsDao implements Ads {
     }
 
     public static Connection connect() throws SQLException {
-        Config config = new Config();
-        Connection connection = DriverManager.getConnection(
-                config.getUrl(),
-                config.getUsername(),
-                config.getPassword()
+        Config con = new Config();
+        Connection config = DriverManager.getConnection(
+                con.getUrl(),
+                con.getUsername(),
+                con.getPassword()
         );
-        return connection;
+        return config;
     }
 
     public MySQLAdsDao(Connection connection) throws SQLException {
@@ -84,7 +83,7 @@ public class MySQLAdsDao implements Ads {
     public static void main(String[] args) throws SQLException {
         Ad prect = new Ad(1, "Puppers", "Free for 20 bucks");
         daBomb.all();
-        daBomb.insert(prect);
+//        daBomb.insert(prect);
 
         //        try {
 //            Connection connection = connect();
