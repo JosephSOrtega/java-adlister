@@ -6,32 +6,18 @@ public class MySQLAdsDao implements Ads {
 
     private Connection connection;
 
-    {
-        try {
-            connection = connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private List<Ad> ads;
-
-//    public MySQLAdsDao() throws SQLException {
-//        connection = connect();
+//    {
+//        try {
+//            connection = connect();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 //    }
-//
 
-    public void setConnection(Config connection) throws SQLException {
-        Connection connections = DriverManager.getConnection(
-                connection.getUrl(),
-                connection.getUsername(),
-                connection.getPassword()
-        );
-        this.connection = connections;
-    }
 
-    public Connection connect() throws SQLException {
+//    private List<Ad> ads;
+
+    public MySQLAdsDao() throws SQLException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -43,15 +29,40 @@ public class MySQLAdsDao implements Ads {
                 config.getUsername(),
                 config.getPassword()
         );
-        connection = connections;
-        return connections;
+                connection = connections;
     }
+
+
+//    public void setConnection(Config connection) throws SQLException {
+//        Connection connections = DriverManager.getConnection(
+//                connection.getUrl(),
+//                connection.getUsername(),
+//                connection.getPassword()
+//        );
+//        this.connection = connections;
+//    }
+
+//    public Connection connect() throws SQLException {
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Config config = new Config();
+//        Connection connections = DriverManager.getConnection(
+//                config.getUrl(),
+//                config.getUsername(),
+//                config.getPassword()
+//        );
+//        connection = connections;
+//        return connections;
+//    }
 
 
     public List<Ad> all() {
         List<Ad> ads = new ArrayList<>();
         try {
-            connection = connect();
+//            connection = connect();
             Statement statement = connection.createStatement();
             String queryString = "SELECT * FROM ads;";
             System.out.println("Connected");
