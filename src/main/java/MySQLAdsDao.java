@@ -6,6 +6,14 @@ public class MySQLAdsDao implements Ads {
 
     private Connection connection;
 
+    {
+        try {
+            connection = connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private List<Ad> ads;
 
@@ -14,7 +22,21 @@ public class MySQLAdsDao implements Ads {
 //    }
 //
 
+    public void setConnection(Config connection) throws SQLException {
+        Connection connections = DriverManager.getConnection(
+                connection.getUrl(),
+                connection.getUsername(),
+                connection.getPassword()
+        );
+        this.connection = connections;
+    }
+
     public Connection connect() throws SQLException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Config config = new Config();
         Connection connections = DriverManager.getConnection(
                 config.getUrl(),
@@ -29,7 +51,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
         List<Ad> ads = new ArrayList<>();
         try {
-            Connection connection = connect();
+            connection = connect();
             Statement statement = connection.createStatement();
             String queryString = "SELECT * FROM ads;";
             System.out.println("Connected");
@@ -61,7 +83,7 @@ public class MySQLAdsDao implements Ads {
 
     public Long insert(Ad ad) {
         try {
-            Connection connection = connect();
+//            Connection connection = connect();
             Statement statement = connection.createStatement();
             System.out.println("Connected");
             String rs = "INSERT INTO ads(user_id, title, description) value (" + ad.getUserId() + ", '" + ad.getTitle() + "', '" + ad.getDescription() + "')";
@@ -80,16 +102,16 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        Ad prect = new Ad(1, "Puppers", "Free for 20 bucks");
-        List<Ad> here = DaoFactory.getAdsDao().all();
-        for (Ad ad : here) {
-            System.out.println(ad.getId());
-            System.out.println(ad.getUserId());
-            System.out.println(ad.getTitle());
-            System.out.println(ad.getDescription());
-
-        }
+//    public static void main(String[] args) throws SQLException {
+//        Ad prect = new Ad(1, "Puppers", "Free for 20 bucks");
+//        List<Ad> here = DaoFactory.getAdsDao().all();
+//        for (Ad ad : here) {
+//            System.out.println(ad.getId());
+//            System.out.println(ad.getUserId());
+//            System.out.println(ad.getTitle());
+//            System.out.println(ad.getDescription());
+//
+//        }
 //        daBomb.insert(prect);
 
 ////        //        try {
@@ -109,7 +131,7 @@ public class MySQLAdsDao implements Ads {
 //////
 ////
 ////
-    }
+//    }
 }
 
 
