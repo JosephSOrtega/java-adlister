@@ -1,13 +1,9 @@
 package com.codeup.adlister.dao;
 
 
-import com.codeup.adlister.models.User;
-
-import java.util.List;
-
 public class DaoFactory {
     private static Ads adsDao;
-    private static User userDao;
+    private static Users usersDao;
     private static Config config = new Config();
 
     public static Ads getAdsDao() {
@@ -16,10 +12,10 @@ public class DaoFactory {
         }
         return adsDao;
     }
-//    public static User getUsers() {
-//        if (userDao == null) {
-//            userDao = new MySQLUsersDao(config);
-//        }
-//        return userDao;
-//    }
+    public static Users getUsersDao() {
+        if (usersDao == null) {
+            usersDao = new MySQLUsersDao(config);
+        }
+        return usersDao;
+    }
 }
