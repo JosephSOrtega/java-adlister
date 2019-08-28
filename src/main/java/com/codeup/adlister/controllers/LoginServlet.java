@@ -1,5 +1,7 @@
 package com.codeup.adlister.controllers;
 
+import com.codeup.adlister.dao.DaoFactory;
+import com.codeup.adlister.models.User;
 import jdk.nashorn.internal.runtime.regexp.joni.Config;
 
 import javax.servlet.ServletException;
@@ -24,30 +26,17 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+
         // TODO: find a record in your database that matches the submitted password
-//        try {
-//            Connection connection = null;
-//            connection = DriverManager.getConnection(
-//                    config.getUrl(),
-//                    config.getUsername(),
-//                    config.getPassword()
-//            );
-//
-//            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM User WHERE username like ?");
-//            stmt.setString(1, username);
-//            stmt.executeQuery();
-//            ResultSet rs = stmt.getGeneratedKeys();
-//            createListFromResults(rs);
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Error creating a new ad.", e);
-//        }
+        User userDB = DaoFactory.getUsersDao().findByUsername(username);
         // TODO: make sure we find a user with that username
+        boolean validAttempt = userDB.getPassword().equalsIgnoreCase(password);
+
         // TODO: check the submitted password against what you have in your database
-        boolean validAttempt = false;
 
         if (validAttempt) {
             // TODO: store the logged in user object in the session, instead of just the username
-            request.getSession().setAttribute("user", username);
+            request.getSession().setAttribute("user", userDB);
             response.sendRedirect("/profile");
         } else {
             response.sendRedirect("/login");
